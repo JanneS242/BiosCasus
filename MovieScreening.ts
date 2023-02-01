@@ -10,7 +10,7 @@ class MovieScreening{
     }
 
     public getPricePerSeat() : number{
-        return 0.0;
+        return this.pricePerSeat;
     }
 
     public toString() : String {
