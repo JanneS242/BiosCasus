@@ -1,12 +1,12 @@
 class MovieScreening{
     dateAndtime: Date;
     pricePerSeat: number;
-    movie: Movie;
+    // movie: Movie;
 
     constructor(movie: Movie, dateAndTime: Date, pricePerSeat: number){
         this.dateAndtime = dateAndTime;
         this.pricePerSeat = pricePerSeat;
-        this.movie = movie;
+        // this.movie = movie;
     }
 
     public getPricePerSeat() : number{
@@ -14,6 +14,6 @@ class MovieScreening{
     }
 
     public toString() : String {
-        return "";
+        return `At ${this.dateAndtime} the movie plays. The price is ${this.pricePerSeat}`;
     }
 }

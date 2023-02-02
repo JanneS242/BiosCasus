@@ -18,7 +18,7 @@ class Order{
     }
 
     public addSeatReservation(ticket: MovieTicket){
-
+        this.tickets.push(ticket);
     }
 
     public isGroupDiscount(amountOfTickets : number) : boolean{

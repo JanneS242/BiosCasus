@@ -16,10 +16,10 @@ class MovieTicket{
     }
 
     public getPrice(): number{
-        return 0.0;
+        return this.movieScreening.pricePerSeat;
     }
 
     public toString() : String{
-        return "";
+        return `The ticket is at rownumber ${this.rowNr} and seatnumber ${this.seatNr}.`;
     }
 }
