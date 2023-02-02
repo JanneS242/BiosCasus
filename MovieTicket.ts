@@ -1,4 +1,6 @@
-class MovieTicket{
+import { MovieScreening } from "./MovieScreening";
+
+export class MovieTicket{
     rowNr: number;
     seatNr: number;
     isPremium: boolean;

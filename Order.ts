@@ -1,6 +1,8 @@
-import fs from "fs";
+import { MovieTicket } from "./MovieTicket";
+import { TicketExportFormat } from "./TicketExportFormat";
+import * as fs from 'fs';
 
-class Order{
+export class Order{
     orderNr: number;
     isStudentOrder: boolean;
     tickets : Array<MovieTicket>;
@@ -81,24 +83,25 @@ class Order{
         return totalPrice;
     }
 
-    public export(exportFormat: TicketExportFormats){
-        if(exportFormat == TicketExportFormats.PLAINTEXT){
-            this.fs.writeFile("file.txt", Order.toString(), function(err: any){
-                if(err){
+    public export(exportFormat: TicketExportFormat){
+        if (exportFormat == TicketExportFormat.PLAINTEXT) {
+            fs.writeFile(`resources/txt/order-${this.orderNr}.txt`, this.toString(), function (err) {
+                if (err) {
                     return console.error(err);
                 }
-                console.log("Order has been created");
+                console.log("Order has been created!");
             });
-        } else if(exportFormat == TicketExportFormats.JSON){
-            const content = JSON.stringify(Order, null, 2);
-            this.fs.writeFile("file.json", content, (err: any) => {
-                if(err){
+        } else if (exportFormat == TicketExportFormat.JSON) {
+            const content = JSON.stringify(this, null, 2);
+            fs.writeFile(`resources/json/order-${this.orderNr}.json`, content, (err) => {
+                if (err) {
                     return console.error(err);
                 }
-                console.log("Oder has been created");
+                console.log("Order has been created!");
             });
-        } else{
-            throw new Error("Invalid data format")
+            // sla op in een download
+        } else {
+            throw new Error("Invalid data format");
         }
     }
 

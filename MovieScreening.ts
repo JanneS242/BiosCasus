@@ -1,9 +1,11 @@
-class MovieScreening{
+import { Movie } from "./Movie";
+
+export class MovieScreening{
     dateAndtime: Date;
     pricePerSeat: number;
     // movie: Movie;
 
-    constructor(movie: Movie, dateAndTime: Date, pricePerSeat: number){
+    constructor(dateAndTime: Date, pricePerSeat: number, movie : Movie){
         this.dateAndtime = dateAndTime;
         this.pricePerSeat = pricePerSeat;
         // this.movie = movie;

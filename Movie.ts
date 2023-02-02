@@ -1,4 +1,6 @@
-class Movie{
+import { MovieScreening } from "./MovieScreening";
+
+export class Movie{
     title: String;
     movieScreenings : Array<MovieScreening>;
 
