@@ -23,60 +23,46 @@ export class Order{
         this.tickets.push(ticket);
     }
 
-    public isGroupDiscount(amountOfTickets : number) : boolean{
-        if(this.isStudentOrder){
-            return false;
+    //check if weekend  
+    private isWeekend() : boolean {
+        var weekendDays: Array<number> = [0, 5, 6]; //sunday, friday, saturday
+        for (let ticket of this.tickets) {
+            var weekdayOfScreening = ticket.movieScreening.dateAndtime.getDay(); //number of weekday
+            //if weekdayOfScreening is in weekendDays
+            return weekendDays.includes(weekdayOfScreening) ? true : false;
         }
-
-        this.tickets.forEach(m => {
-            let dayOfWeek = m.movieScreening.dateAndtime.getDay();
-            //Sunday = 0, Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saterday = 6
-            if(dayOfWeek == 5 || dayOfWeek == 6 || dayOfWeek == 0 ){
-                return false;
-            }
-
-            if(amountOfTickets >= 6){
-                return true;
-            }
-        });
-
         return false;
     }
 
-    public isSecondTicketForFree() : boolean{
-        if(this.isStudentOrder){
-            return true;
-        }
-
-        this.tickets.forEach(m => {
-            let dayOfWeek = m.movieScreening.dateAndtime.getDay();
-            //Sunday = 0, Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saterday = 6
-            if(dayOfWeek == 5 || dayOfWeek == 6 || dayOfWeek == 0 ){
-                return false;
-            }
-        });
-
-        return true;
+    // get discount if group != isStudent && .length >=6
+    private isGroupDiscount(): boolean {
+        var amountOfTickets = this.tickets.length;
+        return this.isStudentOrder == false && amountOfTickets >= 6 ? this.isWeekend(): false;
+    }
+    
+    //if student order  
+    private isSecondTicketFree(): boolean {
+        return this.isStudentOrder ? this.isStudentOrder : !this.isWeekend();
     }
 
-    public calculatePrice(secondTicketFree : boolean, discount : number) : number{
+    public calculatePrice() : number{
         let totalPrice : number = 0;
         let premiumPrice : number = this.isStudentOrder ? 2 : 3;
-        let isFree : boolean = false;
+        let isFree : boolean = this.isSecondTicketFree();
 
-        this.tickets.forEach(m => {
-            if(!secondTicketFree && !isFree){
-                totalPrice += m.getPrice();
-
-                if(m.isPremium){
-                    totalPrice += premiumPrice;
+        for (let i = 0; i < this.tickets.length; i++) {
+            var ticket = this.tickets[i];
+            var ticketPrice = ticket.isPremiumTicket() ? ticket.getPrice() + premiumPrice : ticket.getPrice();
+            if (isFree) {
+                if (i % 2 == 0) {
+                    totalPrice += ticketPrice;
                 }
+            } else {
+                totalPrice += ticketPrice;
             }
+        }
 
-            isFree = !isFree;
-        });
-
-        if(discount){
+        if(this.isGroupDiscount()){
             totalPrice *= 0.9;
         }
 
