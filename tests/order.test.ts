@@ -36,7 +36,7 @@ describe('Test order free ticket functions', ()=>{
         expect(order.calculatePrice()).toBe(2);
     });
 
-    it('get second ticket free as a not-student on a friday', ()=>{
+    it('do not get second ticket free as a not-student on a friday', ()=>{
         const order = new Order(1, false); //No student order
         
         var movie = new Movie("Jurassic Park");
