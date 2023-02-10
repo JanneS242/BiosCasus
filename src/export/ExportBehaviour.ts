@@ -1,0 +1,3 @@
+interface ExportBehaviour{
+    export() : void;
+}

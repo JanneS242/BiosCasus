@@ -2,9 +2,12 @@ import { Movie } from "./Movie";
 import { MovieScreening } from "./MovieScreening";
 import { MovieTicket } from "./MovieTicket";
 import { Order } from "./Order";
+import { StudentPricingBehaviour } from "./pricing/StudentPricingBehaviour";
 import { TicketExportFormat } from "./TicketExportFormat";
 
-const order = new Order(1, true);
+var pricingBahaviour = new StudentPricingBehaviour();
+
+const order = new Order(1, pricingBahaviour);
 
 var movie = new Movie('Leuke film');
 var movieScreening = new MovieScreening(new Date('2/4/2023 12:00'), 2, movie);
@@ -22,6 +25,6 @@ order.addSeatReservation(ticket4);
 order.addSeatReservation(ticket5);
 order.addSeatReservation(ticket6);
 
-console.log('Orderprice is: ' + order.calculatePrice(false, 10));
+console.log('Orderprice is: ' + pricingBahaviour.calculatePrice(order.tickets));
 const format = TicketExportFormat.JSON;
 order.export(format);
