@@ -3,11 +3,14 @@ import { TicketExportFormat } from "./TicketExportFormat";
 import * as fs from 'fs';
 import { PricingBehaviour } from "./pricing/PricingBehaviour";
 import { NormalPricingBehaviour } from "./pricing/NormalPricingBehaviour";
+import { IState } from "./states/IState";
+import { CreateState } from "./states/CreateState";
 
 export class Order{
     orderNr: number;
     calculator : PricingBehaviour;
     tickets : Array<MovieTicket>;
+    currentState : IState;
 
     private fs = require("fs");
 
@@ -15,6 +18,7 @@ export class Order{
         this.calculator = calculator;
         this.orderNr = orderNr;
         this.tickets = new Array<MovieTicket>;
+        this.currentState = new CreateState(this);
     }
 
     public getOrderNr() : number {
@@ -45,6 +49,11 @@ export class Order{
         } else {
             throw new Error("Invalid data format");
         }
+    }
+
+    public changeState(state:IState): void
+    {
+        this.currentState = state;
     }
 
 }
